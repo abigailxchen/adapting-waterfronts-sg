@@ -1,0 +1,470 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Adapting Waterfronts Walking Tour</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans"
+      rel="stylesheet"
+    />
+    <script src="https://api.mapbox.com/mapbox-gl-js/v3.14.0/mapbox-gl.js"></script>
+    <link
+      href="https://api.mapbox.com/mapbox-gl-js/v3.14.0/mapbox-gl.css"
+      rel="stylesheet"
+    />
+
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Open Sans', sans-serif;
+      }
+
+      /* Modal background overlay */
+      #introOverlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.4);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 999;
+      }
+
+      /* Modal content box */
+      #introModal {
+        background: white;
+        padding: 2em;
+        border-radius: 12px;
+        max-width: 400px;
+        width: 90%;
+        text-align: center;
+        z-index: 1000;
+      }
+
+      #introModal h1 {
+        font-size: 1.8em;
+        margin-bottom: 1em;
+      }
+
+      #introModal p {
+        margin-bottom: 1.5em;
+        line-height: 1.4;
+      }
+
+      #startBtn {
+        padding: 10px 20px;
+        font-size: 1.1em;
+        border: none;
+        border-radius: 8px;
+        background: #0077cc;
+        color: white;
+        cursor: pointer;
+      }
+
+      #startBtn:hover {
+        background: #005fa3;
+      }
+
+      /* Map */
+      #map {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+      }
+
+        .marker {
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        background: #222567;
+        color: white;
+        font-size: 16px;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        border: 2px solid white;
+        box-shadow: 0 0 5px rgba(0,0,0,0.3);
+        }
+
+      .mapboxgl-popup {
+        max-width: 400px;
+      }
+
+      .mapboxgl-popup-content {
+        text-align: center;
+      }
+
+      /* Menu button */
+      #menu {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: white;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+        z-index: 998;
+      }
+
+      #menu button {
+        display: block;
+        padding: 10px 15px;
+        width: 100%;
+        border: none;
+        background: white;
+        cursor: pointer;
+        text-align: left;
+      }
+
+      #menu button:hover {
+        background: #f0f0f0;
+      }
+
+      /* Info overlays */
+      .infoOverlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.6);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 1001;
+      }
+
+      .infoContent {
+        background: white;
+        padding: 2em;
+        border-radius: 12px;
+        max-width: 500px;
+        width: 90%;
+        text-align: left;
+        position: relative;
+      }
+
+      .closeBtn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: transparent;
+        border: none;
+        font-size: 1.2em;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+
+  <body>
+        <!-- Intro Modal -->
+        <div id="introOverlay" style="display:flex;">
+        <div id="introModal">
+            <h1>Welcome to the Adapting Waterfronts Augmented Reality Tour!</h1>
+            <p>This is a guided augmented reality tour along the historic shoreline.</p>
+            <p>
+            Here’s how to get started: <br><br>
+            Step 1. Download <a href="https://apps.apple.com/us/app/adobe-aero/id1401748913">Adobe Aero</a>.<br>
+            Step 2. Click on map markers and hold the QR code to be redirected to the AR experience.<br>
+            Step 3. Enjoy and don't walk into the middle of the road!<br>
+            </p>
+            <button id="startBtn">Start</button>
+        </div>
+        </div>
+
+
+    <!-- Menu -->
+    <div id="menu">
+      <button data-overlay="interactOverlay">Getting Started</button>
+      <button data-overlay="aboutOverlay">About</button>
+      <button data-overlay="moreOverlay">More</button>
+    </div>
+
+    <!-- Info Overlays -->
+    <div id="interactOverlay" class="infoOverlay">
+      <div class="infoContent">
+        <button class="closeBtn">&times;</button>
+        <h2>Getting Started</h2>
+        <p>Step 1. Download <a href="https://apps.apple.com/us/app/adobe-aero/id1401748913">Adobe Aero</a>.</p>
+        <p>Step 2. Click on map markers and hold the QR code to be redirected to the AR experience.</p>
+        <p>Step 3. Enjoy and don't walk into the middle of the road!</p>
+      </div>
+    </div>
+
+    <div id="aboutOverlay" class="infoOverlay">
+      <div class="infoContent">
+        <button class="closeBtn">&times;</button>
+        <h2>About</h2>
+        <p>This project is a guided augmented reality tour along the historic shoreline. It invites the public to explore the past, present, and potential future transformations of the city's shoreline by visualizing place-based changes at 8 designated locations.</p>
+        <br><p>Created by Gabriel Tenaya Kaprielian</p>
+        <p>Website by Abigail Chen</p>
+      </div>
+    </div>
+
+    <div id="moreOverlay" class="infoOverlay">
+      <div class="infoContent">
+        <button class="closeBtn">&times;</button>
+        <h2>More</h2>
+        <p>If you enjoyed the tour, we would love to hear your thoughts! Please fill out this brief survey.</p>
+      </div>
+    </div>
+
+    <!-- Map -->
+    <div id="map"></div>
+
+    <script>
+        // Intro modal logic
+        const introOverlay = document.getElementById("introOverlay");
+        const startBtn = document.getElementById("startBtn");
+
+        startBtn.addEventListener("click", () => {
+        introOverlay.style.display = "none"; // completely hide intro overlay
+        });
+
+
+      // Menu overlay logic
+      document.querySelectorAll("#menu button").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const targetId = btn.getAttribute("data-overlay");
+          document.getElementById(targetId).style.display = "flex";
+        });
+      });
+
+      document.querySelectorAll(".closeBtn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          btn.closest(".infoOverlay").style.display = "none";
+        });
+      });
+
+        mapboxgl.accessToken = 'pk.eyJ1IjoiZ3NjYWxlczEiLCJhIjoiY21mYnJoN3R1MTd0MTJscTJsbHBzYjRxMCJ9.cumfjtafRFRLWWKQOUkAfg';
+
+        // Load GeoJSON data for Tour Locations - great for Formatting & Standardization
+        const geojson = {
+            type: 'FeatureCollection',
+            features: [
+                {
+                type: 'Feature',
+                geometry: {
+                    type: 'Point',
+                    coordinates: [-122.400652, 37.787491]
+                },
+                properties: {
+                    title: 'Mission & New Montgomery',
+                    description: 'Street View',
+                    picture: '1_Present.jpg',
+                    qr: '1_AR_QR.png'
+
+                }
+                },
+                {
+                type: 'Feature',
+                geometry: {
+                    type: 'Point',
+                    coordinates: [-122.397661, 37.789759]
+                },
+                properties: {
+                    title: 'Mission & 1st Street',
+                    description: 'Street View',
+                    picture: '2_Present.jpg',
+                    qr: '2_AR_QR.png'
+
+                }
+                },
+                {
+                type: 'Feature',
+                geometry: {
+                    type: 'Point',
+                    coordinates: [-122.399196, 37.791108]
+                },
+                properties: {
+                    title: 'Market & 1st Street',
+                    description: 'Street View',
+                    picture: '3_Present.jpg',
+                    qr: '3_AR_QR.png'
+                }
+                },
+                {
+                type: 'Feature',
+                geometry: {
+                    type: 'Point',
+                    coordinates: [-122.399804, 37.792270]
+                },
+                properties: {
+                    title: 'Battery & Pine Street',
+                    description: 'Street View',
+                    picture: '4_Present.jpg',
+                    qr: '4_AR_QR.png'
+                }
+                },
+                {
+                type: 'Feature',
+                geometry: {
+                    type: 'Point',
+                    coordinates: [-122.402612, 37.791938]
+                },
+                properties: {
+                    title: 'Pine & Montgomery Street',
+                    description: 'Street View',
+                    picture: '5_Present.jpg',
+                    qr: '5_AR_QR.png'
+                }
+                },
+                {
+                type: 'Feature',
+                geometry: {
+                    type: 'Point',
+                    coordinates: [-122.403187, 37.794671]
+                },
+                properties: {
+                    title: 'Montgomery & Clay Street',
+                    description: 'Street View',
+                    picture: '6_Present.jpg',
+                    qr: '6_AR_QR.png'
+
+                }
+                },
+                {
+                type: 'Feature',
+                geometry: {
+                    type: 'Point',
+                    coordinates: [-122.397819, 37.794443]
+                },
+                properties: {
+                    title: 'Davis & Sacramento Street',
+                    description: 'Street View',
+                    picture: '7_Present.jpg',
+                    qr: '7_AR_QR.png'
+
+                }
+                },
+                {
+                type: 'Feature',
+                geometry: {
+                    type: 'Point',
+                    coordinates: [-122.395698, 37.793759]
+                },
+                properties: {
+                    title: 'Market & Spear Street',
+                    description: 'Street View',
+                    picture: '8_Present.jpg',
+                    qr: '8_AR_QR.png'
+
+                }
+                },
+                {
+                type: 'Feature',
+                geometry: {
+                    type: 'Point',
+                    coordinates: [-122.393915, 37.795122]
+                },
+                properties: {
+                    title: 'Ferry Building',
+                    description: 'The final stop',
+                    // qr: '8_AR_QR.png'
+                }
+                }
+            ]
+            };
+    
+        // Create map
+        const map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/light-v11',
+            center: [-122.39867, 37.79268],
+            zoom: 14.15
+        });
+
+        // Add markers to map
+        geojson.features.forEach((feature, index) => {
+        // Create a HTML element for each location
+        const el = document.createElement('div');
+        el.className = 'marker';
+        el.textContent = index + 1; // number markers chronologically
+
+        // Make a marker and add to the map
+        new mapboxgl.Marker(el)
+            .setLngLat(feature.geometry.coordinates)
+            .setPopup(
+            new mapboxgl.Popup({ offset: 25 }) // add popups
+                .setHTML(
+                `<h3>${feature.properties.title}</h3>
+                <p>${feature.properties.description}</p>
+                ${feature.properties.picture ? `<img src="img/${feature.properties.picture}" style="max-width:100%">` : ""}
+                ${feature.properties.qr ? `<img src="img/${feature.properties.qr}" style="max-width:50%">` : ""}`
+                )
+            )
+            .addTo(map);
+        });
+
+
+        // Add GeoJSON data for walking tour route 
+        map.on('load', () => {
+        map.addSource('route', {
+            'type': 'geojson',
+            'data': {
+                'type': 'Feature',
+                'properties': {},
+                'geometry': {
+                    'type': 'LineString',
+                    'coordinates': [
+                    [-122.400517,37.78745 ],
+                    [-122.397587,37.789784 ],
+                    [ -122.399158,37.791027 ],
+                    [-122.399584,37.791348],
+                    [-122.399789,37.792266],
+                    [-122.402592,37.791905],
+                    [-122.403138, 37.79468],
+                    [-122.398016, 37.79534],
+                    [-122.397809,37.794438],
+                    [-122.396609, 37.79459],
+                    [-122.396324,37.793286],
+                    [-122.393571, 37.795434]
+                    ],
+                }
+            }
+        });
+        map.addLayer({
+            'id': 'route',
+            'type': 'line',
+            'source': 'route',
+            'layout': {
+                'line-join': 'round',
+                'line-cap': 'round'
+            },
+            'paint': {
+                'line-color': '#0acbf2',
+                'line-width': 6
+            }
+        });
+    });
+
+        // Add shoreline (8ft sea level rise)
+        // map.on('load', function() {
+        // map.addSource('shoreline', {
+        //     'type': 'vector',
+        //     'url': 'mapbox://gscales1.c8vt00ol' // Replace with tileset ID
+        // });
+
+        // map.addLayer({
+        //     'id': 'shoreline',
+        //     'type': 'fill',
+        //     'source': 'shoreline',
+        //     'source-layer': '8ft_SLR_KML', // The name of the layer within the tileset
+        //     'paint': {
+        //         'fill-color': '#008080',
+        //         'fill-opacity': 0.2
+        //     }
+        //     });
+        // });
+      
+    </script>
+  </body>
+</html>
