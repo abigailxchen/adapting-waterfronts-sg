@@ -412,25 +412,43 @@
 
         // Add markers to map
         geojson.features.forEach((feature, index) => {
-        // Create a HTML element for each location
-        const el = document.createElement('div');
-        el.className = 'marker';
-        el.textContent = index + 1; // number markers chronologically
+          // Create a HTML element for each location
+          const el = document.createElement('div');
+          el.className = 'marker';
+          el.textContent = index + 1; // number markers chronologically
 
-        // Make a marker and add to the map
-        new mapboxgl.Marker(el)
+          // Create popup
+          const popup = new mapboxgl.Popup({ offset: 25, maxWidth: '316px', anchor: 'bottom' })
+            .setHTML(
+              `<h3>${feature.properties.title}</h3>
+              <p>${feature.properties.description}</p>
+              ${feature.properties.picture ? `<img src="img/${feature.properties.picture}" style="max-width:100%">` : ""}
+              <p>${feature.properties.instructions}</p>
+              ${feature.properties.qr ? `<img src="img/${feature.properties.qr}" style="max-width:25%">` : ""}`
+            );
+
+          // Make a marker and add to the map
+          const marker = new mapboxgl.Marker(el)
             .setLngLat(feature.geometry.coordinates)
-            .setPopup(
-            new mapboxgl.Popup({ offset: 25, maxWidth: '316px', anchor: 'bottom' }) // add popups
-                .setHTML(
-                `<h3>${feature.properties.title}</h3>
-                <p>${feature.properties.description}</p>
-                ${feature.properties.picture ? `<img src="img/${feature.properties.picture}" style="max-width:100%">` : ""}
-                <p>${feature.properties.instructions}</p>
-                ${feature.properties.qr ? `<img src="img/${feature.properties.qr}" style="max-width:25%">` : ""}`
-                )
-            )
+            .setPopup(popup)
             .addTo(map);
+
+          // When popup opens, recenter map so popup is visible and zoom if needed
+          popup.on('open', () => {
+            let targetZoom = map.getZoom();
+
+            // On small screens, zoom in a little for readability
+            if (window.innerWidth < 768 && targetZoom < 16) {
+              targetZoom = 16; // adjust this zoom level as you like
+            }
+
+            map.easeTo({
+              center: feature.geometry.coordinates,
+              offset: [0, -120], // shift popup upward so it's not cut off
+              zoom: targetZoom,
+              duration: 900
+            });
+          });
         });
 
         map.on('load', () => {
