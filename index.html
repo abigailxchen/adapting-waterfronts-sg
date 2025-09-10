@@ -241,12 +241,36 @@
     <div id="map"></div>
 
     <script>
+      // Custom access token for github website
+      mapboxgl.accessToken = 'pk.eyJ1IjoiZ3NjYWxlczEiLCJhIjoiY21mYnJoN3R1MTd0MTJscTJsbHBzYjRxMCJ9.cumfjtafRFRLWWKQOUkAfg';
+
+      // Create map
+        const map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/light-v11',
+            center: [-122.39867, 37.79268],
+            zoom: 14.15
+        });
+
+        // Add geolocate
+        const geolocate = new mapboxgl.GeolocateControl({
+            positionOptions: {
+                enableHighAccuracy: true
+            },
+            trackUserLocation: true,
+            showUserHeading: true
+        });
+
+        map.addControl(geolocate);
+
         // Intro modal logic
         const introOverlay = document.getElementById("introOverlay");
         const startBtn = document.getElementById("startBtn");
 
         startBtn.addEventListener("click", () => {
         introOverlay.style.display = "none"; // completely hide intro overlay
+        // Trigger geolocation
+        geolocate.trigger(); // will prompt the user to share location
         });
 
       // Top nav info button logic
@@ -262,11 +286,7 @@
         infoOverlay.style.display = "none";
       });
 
-
-        // Custom access token for github website
-        mapboxgl.accessToken = 'pk.eyJ1IjoiZ3NjYWxlczEiLCJhIjoiY21mYnJoN3R1MTd0MTJscTJsbHBzYjRxMCJ9.cumfjtafRFRLWWKQOUkAfg';
-
-        // Load GeoJSON data for Tour Locations - great for Formatting & Standardization
+        // Load points
         const geojson = {
             type: 'FeatureCollection',
             features: [
@@ -389,14 +409,6 @@
                 }
             ]
             };
-    
-        // Create map
-        const map = new mapboxgl.Map({
-            container: 'map',
-            style: 'mapbox://styles/mapbox/light-v11',
-            center: [-122.39867, 37.79268],
-            zoom: 14.15
-        });
 
         // Add markers to map
         geojson.features.forEach((feature, index) => {
@@ -420,18 +432,6 @@
             )
             .addTo(map);
         });
-
-        // Add geolocate
-        const geolocate = new mapboxgl.GeolocateControl({
-            positionOptions: {
-                enableHighAccuracy: true
-            },
-            trackUserLocation: true,
-            showUserHeading: true
-        });
-
-        map.addControl(geolocate);
-
 
         map.on('load', () => {
           // Shoreline
@@ -490,11 +490,6 @@
               'line-width': 6
             }
           });
-
-            // Ask the user to share location
-            setTimeout(() => {
-                geolocate.trigger(); // prompts for permission
-            }, 1000); // slight delay to ensure map fully loads
         });
 
     </script>
