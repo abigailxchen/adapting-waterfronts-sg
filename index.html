@@ -386,19 +386,7 @@
                     qr: '8_AR_QR.png'
 
                 }
-                },
-                // {
-                // type: 'Feature',
-                // geometry: {
-                //     type: 'Point',
-                //     coordinates: [-122.393915, 37.795122]
-                // },
-                // properties: {
-                //     title: 'Ferry Building',
-                //     description: 'The final stop',
-                //     // qr: '8_AR_QR.png'
-                // }
-                // }
+                }
             ]
             };
     
@@ -432,6 +420,17 @@
             )
             .addTo(map);
         });
+
+        // Add geolocate
+        const geolocate = new mapboxgl.GeolocateControl({
+            positionOptions: {
+                enableHighAccuracy: true
+            },
+            trackUserLocation: true,
+            showUserHeading: true
+        });
+
+        map.addControl(geolocate);
 
 
         map.on('load', () => {
@@ -492,6 +491,10 @@
             }
           });
 
+            // Ask the user to share location
+            setTimeout(() => {
+                geolocate.trigger(); // prompts for permission
+            }, 1000); // slight delay to ensure map fully loads
         });
 
     </script>
