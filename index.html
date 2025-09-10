@@ -402,7 +402,7 @@
         new mapboxgl.Marker(el)
             .setLngLat(feature.geometry.coordinates)
             .setPopup(
-            new mapboxgl.Popup({ offset: 25, maxWidth: '300px', anchor: 'bottom' }) // add popups
+            new mapboxgl.Popup({ offset: 25, maxWidth: '300px', anchor: 'center' }) // add popups
                 .setHTML(
                 `<h3>${feature.properties.title}</h3>
                 <p>${feature.properties.description}</p>
