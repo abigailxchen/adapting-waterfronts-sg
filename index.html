@@ -32,7 +32,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        z-index: 999;
+        z-index: 1100; /* increased above topNav */
       }
 
       /* Modal content box */
@@ -43,8 +43,9 @@
         max-width: 400px;
         width: 80%;
         text-align: center;
-        z-index: 1000;
+        /* remove z-index here; it's inside overlay */
       }
+
 
       #introModal h1 {
         font-size: 1.8em;
@@ -161,61 +162,81 @@
         font-size: 1.2em;
         cursor: pointer;
       }
+
+      /* Top Navigation Bar */
+      #topNav {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 60px;
+        background: rgba(255,255,255,0.9);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1002;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      }
+
+      #logo {
+        font-size: 1.3em;
+        font-weight: bold;
+        text-align: center;
+      }
+
+      #infoBtn {
+        position: absolute;
+        right: 15px;
+        background: transparent;
+        border: none;
+        font-size: 1.5em;
+        cursor: pointer;
+      }
+
     </style>
   </head>
 
   <body>
-        <!-- Intro Modal -->
-        <div id="introOverlay" style="display:flex;">
-        <div id="introModal">
-            <h1>Welcome to the Adapting Waterfronts Augmented Reality Tour!</h1>
-            <p>This is a guided augmented reality tour along the historic shoreline.</p>
-            <p>
-            Here’s how to get started: <br><br>
-            Step 1. Download <a href="https://apps.apple.com/us/app/adobe-aero/id1401748913">Adobe Aero</a>.<br>
-            Step 2. Click on map markers and hold the QR code to be redirected to the AR experience.<br>
-            Step 3. Enjoy and don't walk into the middle of the road!<br>
-            </p>
-            <button id="startBtn">Start</button>
-        </div>
-        </div>
+      <!-- Intro Modal -->
+      <div id="introOverlay" style="display:flex;">
+      <div id="introModal">
+          <h1>Welcome to the Adapting Waterfronts Augmented Reality Tour!</h1>
+          <p>This is a guided augmented reality tour along the historic shoreline.</p>
+          <p>
+          Here’s how to get started: <br><br>
+          Step 1. Download <a href="https://apps.apple.com/us/app/adobe-aero/id1401748913">Adobe Aero</a>.<br>
+          Step 2. Click on map markers and hold the QR code to be redirected to the AR experience.<br>
+          Step 3. Enjoy and don't walk into the middle of the road!<br>
+          </p>
+          <button id="startBtn">Start</button>
+      </div>
+      </div>
 
-
-    <!-- Menu -->
-    <div id="menu">
-      <button data-overlay="interactOverlay">Getting Started</button>
-      <button data-overlay="aboutOverlay">About</button>
-      <button data-overlay="moreOverlay">More</button>
+    <!-- Top Navigation Bar -->
+    <div id="topNav">
+      <div id="logo">🌊 Adapting Waterfronts</div>
+      <button id="infoBtn">ℹ️</button>
     </div>
 
-    <!-- Info Overlays -->
-    <div id="interactOverlay" class="infoOverlay">
+    <!-- Combined Info Overlay -->
+    <div id="infoOverlay" class="infoOverlay">
       <div class="infoContent">
         <button class="closeBtn">&times;</button>
         <h2>Getting Started</h2>
         <p>Step 1. Download <a href="https://apps.apple.com/us/app/adobe-aero/id1401748913">Adobe Aero</a>.</p>
         <p>Step 2. Click on map markers and hold the QR code to be redirected to the AR experience.</p>
         <p>Step 3. Enjoy and don't walk into the middle of the road!</p>
-      </div>
-    </div>
 
-    <div id="aboutOverlay" class="infoOverlay">
-      <div class="infoContent">
-        <button class="closeBtn">&times;</button>
         <h2>About</h2>
         <p>This project is a guided augmented reality tour along the historic shoreline. It invites the public to explore the past, present, and potential future transformations of the city's shoreline by visualizing place-based changes at 8 designated locations.</p>
-        <br><p>Created by Gabriel Tenaya Kaprielian</p>
+        <p>Created by Gabriel Tenaya Kaprielian</p>
         <p>Website by Abigail Chen</p>
-      </div>
-    </div>
 
-    <div id="moreOverlay" class="infoOverlay">
-      <div class="infoContent">
-        <button class="closeBtn">&times;</button>
         <h2>More</h2>
         <p>If you enjoyed the tour, we would love to hear your thoughts! Please fill out this brief survey.</p>
       </div>
     </div>
+
 
     <!-- Map -->
     <div id="map"></div>
@@ -229,20 +250,19 @@
         introOverlay.style.display = "none"; // completely hide intro overlay
         });
 
+      // Top nav info button logic
+      const infoBtn = document.getElementById("infoBtn");
+      const infoOverlay = document.getElementById("infoOverlay");
+      const closeBtn = infoOverlay.querySelector(".closeBtn");
 
-      // Menu overlay logic
-      document.querySelectorAll("#menu button").forEach(btn => {
-        btn.addEventListener("click", () => {
-          const targetId = btn.getAttribute("data-overlay");
-          document.getElementById(targetId).style.display = "flex";
-        });
+      infoBtn.addEventListener("click", () => {
+        infoOverlay.style.display = "flex";
       });
 
-      document.querySelectorAll(".closeBtn").forEach(btn => {
-        btn.addEventListener("click", () => {
-          btn.closest(".infoOverlay").style.display = "none";
-        });
+      closeBtn.addEventListener("click", () => {
+        infoOverlay.style.display = "none";
       });
+
 
         // Custom access token for github website
         mapboxgl.accessToken = 'pk.eyJ1IjoiZ3NjYWxlczEiLCJhIjoiY21mYnJoN3R1MTd0MTJscTJsbHBzYjRxMCJ9.cumfjtafRFRLWWKQOUkAfg';
@@ -476,7 +496,6 @@
           });
         });
 
-      
     </script>
   </body>
 </html>
