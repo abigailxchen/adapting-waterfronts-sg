@@ -494,6 +494,23 @@
             }
           });
 
+          // 6ft SLR
+          map.addSource('6ftslr', {
+            'type': 'vector',
+            'url': 'mapbox://gscales1.2fbkgkhm' // Replace with Tileset ID
+          });
+
+          map.addLayer({
+            'id': '6ftslr',
+            'type': 'fill',
+            'source': '6ftslr',
+            'source-layer': '6ft_SLR_KML', // Replace with Tileset Vector Layer name
+            'paint': {
+              'fill-color': '#008080',
+              'fill-opacity': 0.5
+            }
+          });
+
           // Route
           map.addSource('route', {
             'type': 'geojson',
