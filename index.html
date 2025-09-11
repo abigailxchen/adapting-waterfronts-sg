@@ -452,16 +452,44 @@
                     qr: '8_AR_QR.png'
 
                 }
+                },
+                {
+                type: 'Feature',
+                geometry: {
+                  type: 'Point',
+                  coordinates: [-122.393, 37.795] // Ferry Building coordinates
+                },
+                properties: {
+                  title: 'Ferry Building',
+                  description: 'Welcome to the Ferry Building!',
+                  picture: null,
+                  instructions: null,
+                  qr: null,
+                  special: true  // flag to indicate this is a custom marker
                 }
+              }
             ]
             };
 
         // Add markers to map
         geojson.features.forEach((feature, index) => {
-          // Create a HTML element for each location
-          const el = document.createElement('div');
-          el.className = 'marker';
-          el.textContent = index + 1; // number markers chronologically
+          let el;
+
+          if (feature.properties.special) {
+              // Create a custom flag marker for special locations
+              el = document.createElement('div');
+              el.style.backgroundImage = 'url(img/flag.png)';
+              el.style.width = '40px';
+              el.style.height = '40px';
+              el.style.backgroundSize = 'contain';
+              el.style.backgroundRepeat = 'no-repeat';
+              el.style.cursor = 'pointer';
+            } else {
+              // Default numbered marker
+              el = document.createElement('div');
+              el.className = 'marker';
+              el.textContent = index + 1; // number markers chronologically
+            }
 
           // Create popup
           const popup = new mapboxgl.Popup({ offset: 25, maxWidth: '316px', anchor: 'bottom' })
