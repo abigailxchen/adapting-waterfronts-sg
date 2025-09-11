@@ -182,12 +182,9 @@
         border-radius: 50%;          /* optional: circular hit area */
       }
       
-      @media (hover: hover) and (pointer: fine) {
-        .closeBtn:hover,
-        .mapboxgl-popup-close-button:hover {
-          background: rgba(0,0,0,0.05);
-        }
-      }
+      .mapboxgl-popup-close-button:focus-visible {
+        background: rgba(0,0,0,0.05);
+      } 
 
       /* Top Navigation Bar */
       #topNav {
