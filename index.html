@@ -601,6 +601,37 @@
           });
         });
 
+        // Dashed line to Ferry Building
+        map.addSource('ferryRoute', {
+          'type': 'geojson',
+          'data': {
+            'type': 'Feature',
+            'properties': {},
+            'geometry': {
+              'type': 'LineString',
+              'coordinates': [
+                [-122.39562982501772,37.79384680176645],
+                [-122.3934898866114,37.795529178841036]
+              ]
+            }
+          }
+        });
+
+        map.addLayer({
+          'id': 'ferryRoute',
+          'type': 'line',
+          'source': 'ferryRoute',
+          'layout': {
+            'line-join': 'round',
+            'line-cap': 'round'
+          },
+          'paint': {
+            'line-color': '#0acbf2',
+            'line-width': 6,
+            'line-dasharray': [2, 4] // 2px dash, 4px gap
+          }
+        });
+
         // Layer toggle logic
         const shorelineCheckbox = document.getElementById('shorelineCheckbox');
         const slrCheckbox = document.getElementById('slrCheckbox');
