@@ -182,9 +182,13 @@
         border-radius: 50%;          /* optional: circular hit area */
       }
       
-      .mapboxgl-popup-close-button:focus-visible {
-        background: rgba(0,0,0,0.05);
-      } 
+      /* Remove hover effect completely */
+      .mapboxgl-popup-close-button,
+      .mapboxgl-popup-close-button:hover,
+      .mapboxgl-popup-close-button:focus,
+      .mapboxgl-popup-close-button:active {
+          background: transparent !important;  /* no hover color */
+      }
 
       /* Top Navigation Bar */
       #topNav {
