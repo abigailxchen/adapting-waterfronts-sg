@@ -103,6 +103,18 @@
         overflow-y: auto;
       }
 
+      .mapboxgl-popup-close-button {
+        font-size: 2em !important;   /* larger × */
+        width: 44px !important;      /* bigger tap target */
+        height: 44px !important;
+        line-height: 44px !important;
+        border-radius: 50%;
+      }
+      .mapboxgl-popup-close-button:hover,
+      .mapboxgl-popup-close-button:focus {
+        background: rgba(0,0,0,0.05);
+      }
+
       /* Menu button */
       #menu {
         position: absolute;
@@ -155,12 +167,23 @@
 
       .closeBtn {
         position: absolute;
-        top: 10px;
-        right: 10px;
+        top: 12px;
+        right: 12px;
         background: transparent;
         border: none;
-        font-size: 1.2em;
+        font-size: 2em;              /* bigger "×" */
+        line-height: 1;
         cursor: pointer;
+        width: 44px;                 /* min recommended touch target */
+        height: 44px;                /* min recommended touch target */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;          /* optional: circular hit area */
+      }
+      .closeBtn:hover,
+      .closeBtn:focus {
+        background: rgba(0,0,0,0.05); /* subtle feedback */
       }
 
       /* Top Navigation Bar */
