@@ -244,6 +244,23 @@
         cursor: pointer;
       }
 
+      .qr-section {
+        text-align: center;   /* centers instructions */
+        margin-top: 12px;     /* spacing above the section */
+      }
+
+      .qr-section p {
+        margin-bottom: 8px;   /* space between text and QR image */
+      }
+
+      .qr-code {
+        display: block;
+        margin: 0 auto;
+        max-width: 150px;     /* keep it a reasonable size */
+        height: auto;
+      }
+
+
     </style>
   </head>
 
@@ -513,8 +530,11 @@
               `<h3>${feature.properties.title}</h3>
               <p>${feature.properties.description}</p>
               ${feature.properties.picture ? `<img src="img/${feature.properties.picture}" style="max-width:100%">` : ""}
-              ${feature.properties.instructions ? `<p>${feature.properties.instructions}</p>` : ''}
-              ${feature.properties.qr ? `<img src="img/${feature.properties.qr}" style="max-width:25%">` : ""}`
+              ${feature.properties.instructions || feature.properties.qr ? `
+                  <div class="qr-section">
+                    ${feature.properties.instructions ? `<p>${feature.properties.instructions}</p>` : ""}
+                    ${feature.properties.qr ? `<img src="img/${feature.properties.qr}" alt="QR Code" class="qr-code">` : ""}
+                  </div>` : ""}`
             );
 
           // Make a marker and add to the map
