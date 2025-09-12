@@ -22,6 +22,59 @@
         font-family: 'Open Sans', sans-serif;
       }
 
+      /* Fonts */
+      @font-face {
+        font-family: 'BogartAlt';
+        src: url('fonts/BOGARTALTMEDIUMTRIAL.TTF') format('truetype'),
+            url('fonts/BOGARTALTMEDIUMTRIAL.TTF') format('woff');
+        font-weight: medium;
+        font-style: normal;
+      }
+
+      @font-face {
+        font-family: 'Satoshi';
+        src: url('fonts/Satoshi-Regular.otf') format('opentype'),
+            url('fonts/Satoshi-Regular.otf') format('woff');
+        font-weight: normal;
+        font-style: normal;
+      }
+
+      @font-face {
+        font-family: 'Satoshi';
+        src: url('fonts/Satoshi-Bold.otf') format('opentype'),
+            url('fonts/Satoshi-Bold.otf') format('woff');
+        font-weight: bold;
+        font-style: normal;
+      }
+
+      /* Modal header */
+      #introModal h1 {
+        font-family: 'BogartAlt', serif;
+      }
+
+      /* Map popups header */
+      .mapboxgl-popup-content h3 {
+        font-family: 'BogartAlt', serif;
+      }
+
+      /* Info overlay headers */
+      .infoContent h2 {
+        font-family: 'BogartAlt', serif;
+      }
+
+      /* Paragraph text (modal, popup, info) */
+      #introModal p,
+      .mapboxgl-popup-content p,
+      .infoContent p {
+        font-family: 'Satoshi', sans-serif;
+      }
+
+      /* Start button text */
+      #startBtn {
+        font-family: 'Satoshi', sans-serif;
+        font-weight: bold;  /* will use Satoshi-Bold.otf */
+      }
+
       /* Modal background overlay */
       #introOverlay {
         position: fixed;
