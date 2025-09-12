@@ -298,19 +298,27 @@
         cursor: pointer;
         margin-bottom: 8px;
         user-select: none;
+        padding: 4px 6px; /* optional: clickable area */
+        border-radius: 6px;
+        transition: background 0.2s;
       }
 
       .layer-toggle .color-box {
         width: 20px;
         height: 20px;
-        border-radius: 4px; /* optional: rounded corners */
+        border-radius: 4px;
         margin-right: 8px;
         transition: opacity 0.2s;
       }
 
-      .layer-toggle.inactive .color-box {
-        opacity: 0.4; /* faded when layer is off */
+      .layer-toggle.active {
+        background: rgba(0,0,0,0.05); /* subtle highlight */
       }
+
+      .layer-toggle:not(.active) .color-box {
+        opacity: 0.4; /* faded when inactive */
+      }
+
 
       .layer-toggle .layer-label {
         font-family: 'Satoshi', sans-serif;
@@ -703,32 +711,14 @@
         });
 
         // Layer toggle logic
-        // const shorelineCheckbox = document.getElementById('shorelineCheckbox');
-        // const slrCheckbox = document.getElementById('slrCheckbox');
-
-        // shorelineCheckbox.addEventListener('change', (e) => {
-        //     map.setLayoutProperty(
-        //         'shoreline',
-        //         'visibility',
-        //         e.target.checked ? 'visible' : 'none'
-        //     );
-        // });
-
-        // slrCheckbox.addEventListener('change', (e) => {
-        //     map.setLayoutProperty(
-        //         '6ftslr',
-        //         'visibility',
-        //         e.target.checked ? 'visible' : 'none'
-        //     );
-        // });
-
         const layerButtons = document.querySelectorAll('.layer-toggle');
 
         layerButtons.forEach(button => {
           const layerId = button.dataset.layer;
 
-          // Set initial active state
-          button.classList.add('active');
+          // Make layer visible by default
+          map.setLayoutProperty(layerId, 'visibility', 'visible');
+          button.classList.add('active'); // visually active
 
           button.addEventListener('click', () => {
             const visibility = map.getLayoutProperty(layerId, 'visibility');
@@ -736,14 +726,13 @@
             if (visibility === 'visible') {
               map.setLayoutProperty(layerId, 'visibility', 'none');
               button.classList.remove('active');
-              button.classList.add('inactive');
             } else {
               map.setLayoutProperty(layerId, 'visibility', 'visible');
-              button.classList.remove('inactive');
               button.classList.add('active');
             }
           });
         });
+
 
     </script>
   </body>
