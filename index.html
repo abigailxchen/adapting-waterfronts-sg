@@ -291,6 +291,32 @@
         height: auto;
       }
 
+      /* Layer legend */
+      .layer-toggle {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        margin-bottom: 8px;
+        user-select: none;
+      }
+
+      .layer-toggle .color-box {
+        width: 20px;
+        height: 20px;
+        border-radius: 4px; /* optional: rounded corners */
+        margin-right: 8px;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        transition: opacity 0.2s;
+      }
+
+      .layer-toggle.inactive .color-box {
+        opacity: 0.4; /* faded when layer is off */
+      }
+
+      .layer-toggle .layer-label {
+        font-family: 'Satoshi', sans-serif;
+        font-size: 14px;
+      }
 
     </style>
   </head>
@@ -342,10 +368,14 @@
 
     <!-- Layer legend / toggle -->
     <div id="layerLegend">
-      <input type="checkbox" id="shorelineCheckbox" checked>
-      <label for="shorelineCheckbox" style="color:#000000;">Historic Shoreline</label><br>
-      <input type="checkbox" id="slrCheckbox" checked>
-      <label for="slrCheckbox" style="color:#000000;">6' Sea Level Rise</label><br>
+      <div class="layer-toggle active" data-layer="shoreline">
+        <span class="color-box" style="background-color: #FFC31E;"></span>
+        <span class="layer-label">Historic Shoreline</span>
+      </div>
+      <div class="layer-toggle active" data-layer="6ftslr">
+        <span class="color-box" style="background-color: #41A7FF;"></span>
+        <span class="layer-label">6' Sea Level Rise</span>
+      </div>
     </div>
 
 
@@ -407,7 +437,7 @@
                     coordinates: [-122.400652, 37.787491]
                 },
                 properties: {
-                    title: 'Mission & New Montgomery',
+                    title: 'Mission & New Montgomery Street',
                     description: "You're standing on top of a costal sand dune prairire. How many native dune plants and animals can you name? Where are there existing dune ecosystems in San Francisco?",
                     picture: '1_GIF.gif',
                     instructions: "Hold the QR code and click 'Open' to jump in!",
@@ -668,57 +698,48 @@
           });
         });
 
-        // Dashed line to Ferry Building
-        // map.addSource('ferryRoute', {
-        //   'type': 'geojson',
-        //   'data': {
-        //     'type': 'Feature',
-        //     'properties': {},
-        //     'geometry': {
-        //       'type': 'LineString',
-        //       'coordinates': [
-        //         [-122.39562982501772,37.79384680176645],
-        //         [-122.3934898866114,37.795529178841036]
-        //       ]
-        //     }
-        //   }
-        // });
-
-        // map.addLayer({
-        //   'id': 'ferryRoute',
-        //   'type': 'line',
-        //   'source': 'ferryRoute',
-        //   'layout': {
-        //     'line-join': 'round',
-        //     'line-cap': 'round'
-        //   },
-        //   'paint': {
-        //     'line-color': '#0acbf2',
-        //     'line-width': 6,
-        //     'line-dasharray': [2, 4] // 2px dash, 4px gap
-        //   }
-        // });
-
         // Layer toggle logic
-        const shorelineCheckbox = document.getElementById('shorelineCheckbox');
-        const slrCheckbox = document.getElementById('slrCheckbox');
+        // const shorelineCheckbox = document.getElementById('shorelineCheckbox');
+        // const slrCheckbox = document.getElementById('slrCheckbox');
 
-        shorelineCheckbox.addEventListener('change', (e) => {
-            map.setLayoutProperty(
-                'shoreline',
-                'visibility',
-                e.target.checked ? 'visible' : 'none'
-            );
+        // shorelineCheckbox.addEventListener('change', (e) => {
+        //     map.setLayoutProperty(
+        //         'shoreline',
+        //         'visibility',
+        //         e.target.checked ? 'visible' : 'none'
+        //     );
+        // });
+
+        // slrCheckbox.addEventListener('change', (e) => {
+        //     map.setLayoutProperty(
+        //         '6ftslr',
+        //         'visibility',
+        //         e.target.checked ? 'visible' : 'none'
+        //     );
+        // });
+
+        const layerButtons = document.querySelectorAll('.layer-toggle');
+
+        layerButtons.forEach(button => {
+          const layerId = button.dataset.layer;
+
+          // Set initial active state
+          button.classList.add('active');
+
+          button.addEventListener('click', () => {
+            const visibility = map.getLayoutProperty(layerId, 'visibility');
+
+            if (visibility === 'visible') {
+              map.setLayoutProperty(layerId, 'visibility', 'none');
+              button.classList.remove('active');
+              button.classList.add('inactive');
+            } else {
+              map.setLayoutProperty(layerId, 'visibility', 'visible');
+              button.classList.remove('inactive');
+              button.classList.add('active');
+            }
+          });
         });
-
-        slrCheckbox.addEventListener('change', (e) => {
-            map.setLayoutProperty(
-                '6ftslr',
-                'visibility',
-                e.target.checked ? 'visible' : 'none'
-            );
-        });
-
 
     </script>
   </body>
