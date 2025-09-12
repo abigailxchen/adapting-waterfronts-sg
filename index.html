@@ -317,6 +317,11 @@
         font-size: 14px;
       }
 
+      .layer-toggle:last-child {
+        margin-bottom: 0;
+      }
+
+
     </style>
   </head>
 
@@ -614,7 +619,7 @@
 
             map.easeTo({
               center: feature.geometry.coordinates,
-              offset: [0, 300], // shift popup upward so it's not cut off
+              offset: [0, 330], // shift popup upward so it's not cut off
               zoom: targetZoom,
               duration: 900
             });
