@@ -235,6 +235,21 @@
           position: relative;
         }
 
+        .about-logos {
+          display: flex;
+          justify-content: center; /* center them horizontally */
+          align-items: center;
+          gap: 20px; /* space between logos */
+          margin-top: 1em;
+          flex-wrap: wrap; /* allow wrapping on very small screens */
+        }
+
+        .about-logos img {
+          max-height: 50px; /* keep logos a nice size */
+          width: auto;
+          object-fit: contain;
+        }
+
 
       .closeBtn {
         position: absolute;
@@ -398,7 +413,13 @@
         <h2>About</h2>
         <p>Adapting Waterfronts is a self-guided augmented reality tour along San Francisco’s historic downtown. The project invites the public to explore the past, present, and potential future transformations of the city’s shoreline as it adapts to climate change by visualizing installations at 8 designated locations. Supported by funds from the Research, Scholarly and Creative Activities (RCSA) Grant Program at the California Polytechnic State University in San Luis Obispo.</p>
         <p>Created by Gabriel Tenaya Kaprielian</p>
-        <p>Website by Abigail Chen</p><br>
+        <p>Website by Abigail Chen</p>
+        <div class="about-logos">
+          <img src="img/CalPoly_Logo.png" alt="Cal Poly Logo">
+          <img src="img/SPUR_Logo.png" alt="SPUR Logo">
+          <img src="img/PortofSF_Logo.png" alt="Port of SF Logo">
+        </div>
+        <br>
 
         <h2>Data Sources</h2>
         <p>The <a href="https://www.coast.noaa.gov/slr">sea level rise data</a> was created by the National Oceanic and Atmospheric Administration (NOAA) Office for Coastal Management. </p>
