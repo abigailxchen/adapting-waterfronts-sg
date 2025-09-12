@@ -100,10 +100,21 @@
         z-index: 1003;
       }
 
+      /* Popup container */
       .mapboxgl-popup-content {
-        text-align: center;
-        overflow-y: auto;
+        background-color: #FBF8F0; /* beige */
+        border-radius: 16px;       /* more rounded corners */
+        padding: 12px 16px;        /* adjust padding if you like */
+        font-family: sans-serif;   /* optional: match your site font */
+        font-size: 14px;
+        color: #333;               /* darker text for contrast */
       }
+
+      /* Optional: popup tip (the little pointer triangle) */
+      .mapboxgl-popup-tip {
+        border-top-color: #FBF8F0 !important; /* beige pointer */
+      }
+
 
       .mapboxgl-popup-close-button {
         font-size: 2em !important;   /* larger × */
