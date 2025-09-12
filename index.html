@@ -215,13 +215,14 @@
         align-items: center;
         justify-content: center;
         z-index: 1005;
+      } 
+
+      #logoImg {
+        height: 40px;   /* fits within 60px nav bar */
+        width: auto;
+        display: block;
       }
 
-      #logo {
-        font-size: 1.1em;
-        font-weight: bold;
-        text-align: center;
-      }
 
       #infoBtn {
         position: absolute;
@@ -253,9 +254,12 @@
 
     <!-- Top Navigation Bar -->
     <div id="topNav">
-      <div id="logo">🌊 Adapting Waterfronts</div>
+      <a href="index.html">
+        <img src="img/AW_Logo_Words.png" alt="Adapting Waterfronts logo" id="logoImg" />
+      </a>
       <button id="infoBtn">ℹ️</button>
     </div>
+
 
     <!-- Combined Info Overlay -->
     <div id="infoOverlay" class="infoOverlay">
