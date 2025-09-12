@@ -348,12 +348,13 @@
       <div id="introOverlay" style="display:flex;">
       <div id="introModal">
           <h1>Welcome to the Adapting Waterfronts SF Tour!</h1>
-          <p>This is a guided augmented reality tour along the historic shoreline.</p>
+          <p>Imagine a postcard sent from San Francisco 100 years in the future. How might the city adapt to a changing climate and rising seas? Find out by exploring this self-guided augmented reality tour!</p>
           <p>
           Here’s how to get started: <br><br>
           Step 1. Download <a href="https://apps.apple.com/us/app/adobe-aero/id1401748913">Adobe Aero</a>.<br>
           Step 2. Click on map markers and hold the QR code to be redirected to the AR experience.<br>
-          Step 3. Enjoy and don't walk into the middle of the road!<br>
+          Step 3. Follow the prompts on Aero to view installation.<br>
+          Step 4. Enjoy and be aware of your surroundings at all times.<br>
           </p>
           <button id="startBtn">Start</button>
       </div>
@@ -378,7 +379,9 @@
         <p>Step 3. Enjoy and don't walk into the middle of the road!</p>
 
         <h2>About</h2>
-        <p>This project is a guided augmented reality tour along the historic shoreline. It invites the public to explore the past, present, and potential future transformations of the city's shoreline by visualizing place-based changes at 8 designated locations.</p>
+        <p>Adapting Waterfronts is a self-guided augmented reality tour along San Francisco’s historic downtown.
+        The project invites the public to explore the past, present, and potential future transformations of the city’s shoreline as it adapts to climate change by visualizing installations at 8 designated locations. Supported by funds from the Research, Scholarly and Creative Activities (RCSA) Grant Program at the California Polytechnic State University in San Luis Obispo.
+        </p>
         <p>Created by Gabriel Tenaya Kaprielian</p>
         <p>Website by Abigail Chen</p>
       </div>
@@ -532,217 +535,4 @@
                 },
                 properties: {
                     title: 'Montgomery & Clay Street',
-                    description: 'Sea-level rise will lead to compound flooding in costal communities by raising ground water levels, which increases flooding and damages infrastructure with saltwater. Would you swim in a giant saltwater pool in San Francisco? Where do people currently swim outdoors?',
-                    picture: '6_GIF.gif',
-                     instructions: "Hold the QR code and click 'Open Adobe Aero' to jump in!",
-                    qr: '6_AR_QR.png'
-
-                }
-                },
-                {
-                type: 'Feature',
-                geometry: {
-                    type: 'Point',
-                    coordinates: [-122.397819, 37.794443]
-                },
-                properties: {
-                    title: 'Davis & Sacramento Street',
-                    description: 'As sea levels rise, the areas that have been built on reclaimed land are some of the most vulnerable areas to flooding. What parts of San Francisco are constructed on bay fill? How can we reconsider the concept of a static shoreline as a flexible show area by embracing our relationship with the water?',
-                    picture: '7_GIF.gif',
-                    instructions: "Hold the QR code and click 'Open Adobe Aero' to jump in!",
-                    qr: '7_AR_QR.png'
-
-                }
-                },
-                {
-                type: 'Feature',
-                geometry: {
-                    type: 'Point',
-                    coordinates: [-122.395698, 37.793759]
-                },
-                properties: {
-                    title: 'Market & Spear Street',
-                    description: 'The Antarctic Ice Sheet extends nearly 5.4 million square miles, roughly the area of the contiuguous US and Mexico combined. The volume of the Antarctic Ice Sheet equates to 10 million cubic miles, with a mean thickness of 7,000 feet. If it all melted, global sea levels would rise over 190 feet. How many feet of sea level rise do you think would be too much for San Francisco to use walls as shoreline protection?',
-                    picture: '8_GIF.gif',
-                    instructions: "Hold the QR code and click 'Open Adobe Aero' to jump in!", 
-                    qr: '8_AR_QR.png'
-
-                }
-                },
-                {
-                type: 'Feature',
-                geometry: {
-                  type: 'Point',
-                  coordinates: [-122.39344, 37.79547] // Ferry Building coordinates
-                },
-                properties: {
-                  title: 'Ferry Building',
-                  description: "We're passing it on to Luiz at the Port of SF to continue the second part of the tour at the Ferry Building. Thank you for taking part in this AR walking tour!",
-                  picture: 'FerryBuilding_Image.png',
-                  instructions: "We would love to hear your thoughts in a brief survey below.",
-                  qr: null,
-                  special: true  // flag to indicate this is a custom marker
-                }
-              }
-            ]
-            };
-
-        // Add markers to map
-        geojson.features.forEach((feature, index) => {
-          let el;
-
-          if (feature.properties.special) {
-              // Create a custom flag marker for special locations
-              el = document.createElement('div');
-              el.style.backgroundImage = 'url(img/FerryBuilding_Icon.png)';
-              el.style.width = '60px';
-              el.style.height = '60px';
-              el.style.backgroundSize = 'contain';
-              el.style.backgroundRepeat = 'no-repeat';
-              el.style.cursor = 'pointer';
-            } else {
-              // Default numbered marker
-              el = document.createElement('div');
-              el.className = 'marker';
-              el.textContent = index + 1; // number markers chronologically
-            }
-
-          // Create popup
-          const popup = new mapboxgl.Popup({ offset: 25, maxWidth: '316px', anchor: 'bottom' })
-            .setHTML(
-              `<h3>${feature.properties.title}</h3>
-              <p>${feature.properties.description}</p>
-              ${feature.properties.picture ? `<img src="img/${feature.properties.picture}" style="max-width:100%">` : ""}
-              ${feature.properties.instructions || feature.properties.qr ? `
-                  <div class="qr-section">
-                    ${feature.properties.instructions ? `<p>${feature.properties.instructions}</p>` : ""}
-                    ${feature.properties.qr ? `<img src="img/${feature.properties.qr}" alt="QR Code" class="qr-code">` : ""}
-                  </div>` : ""}`
-            );
-
-          // Make a marker and add to the map
-          const marker = new mapboxgl.Marker(el)
-            .setLngLat(feature.geometry.coordinates)
-            .setPopup(popup)
-            .addTo(map);
-
-          // When popup opens, recenter map so popup is visible and zoom if needed
-          popup.on('open', () => {
-            let targetZoom = map.getZoom();
-
-            // On small screens, zoom in a little for readability
-            if (window.innerWidth < 768 && targetZoom < 16) {
-              targetZoom = 16; // adjust this zoom level as you like
-            }
-
-            map.easeTo({
-              center: feature.geometry.coordinates,
-              offset: [0, 330], // shift popup upward so it's not cut off
-              zoom: targetZoom,
-              duration: 900
-            });
-          });
-        });
-
-        map.on('load', () => {
-          // Shoreline
-          map.addSource('shoreline', {
-            'type': 'vector',
-            'url': 'mapbox://gscales1.1koo04dg' // Replace with Tileset ID
-          });
-
-          map.addLayer({
-            'id': 'shoreline',
-            'type': 'fill',
-            'source': 'shoreline',
-            'source-layer': 'bayfill_KML', // Replace with Tileset Vector Layer name
-            'paint': {
-              'fill-color': '#FFC31E',
-              'fill-opacity': 0.4
-            }
-          });
-
-          // 6ft SLR
-          map.addSource('6ftslr', {
-            'type': 'vector',
-            'url': 'mapbox://gscales1.2fbkgkhm' // Replace with Tileset ID
-          });
-
-          map.addLayer({
-            'id': '6ftslr',
-            'type': 'fill',
-            'source': '6ftslr',
-            'source-layer': '6ft_SLR_KML', // Replace with Tileset Vector Layer name
-            'paint': {
-              'fill-color': '#41A7FF',
-              'fill-opacity': 0.7
-            }
-          });
-
-          // Route
-          map.addSource('route', {
-            'type': 'geojson',
-            'data': {
-              'type': 'Feature',
-              'properties': {},
-              'geometry': {
-                'type': 'LineString',
-                'coordinates': [
-                  [-122.400517,37.78745],
-                  [-122.397587,37.789784],
-                  [-122.399158,37.791027],
-                  [-122.399584,37.791348],
-                  [-122.399789,37.792266],
-                  [-122.402592,37.791905],
-                  [-122.403138,37.79468],
-                  [-122.398016,37.79534],
-                  [-122.397809,37.794438],
-                  [-122.396609,37.79459],
-                  [-122.396324,37.793286],
-                  [-122.395638, 37.793845]
-                ]
-              }
-            }
-          });
-
-          map.addLayer({
-            'id': 'route',
-            'type': 'line',
-            'source': 'route',
-            'layout': {
-              'line-join': 'round',
-              'line-cap': 'round'
-            },
-            'paint': {
-              'line-color': '#363636',
-              'line-width': 6
-            }
-          });
-
-        // Layer toggle logic
-        const layerButtons = document.querySelectorAll('.layer-toggle');
-
-        layerButtons.forEach(button => {
-          const layerId = button.dataset.layer;
-
-          // Make layer visible by default
-          map.setLayoutProperty(layerId, 'visibility', 'visible');
-          button.classList.add('active'); // visually active
-
-          button.addEventListener('click', () => {
-            const visibility = map.getLayoutProperty(layerId, 'visibility');
-
-            if (visibility === 'visible') {
-              map.setLayoutProperty(layerId, 'visibility', 'none');
-              button.classList.remove('active');
-            } else {
-              map.setLayoutProperty(layerId, 'visibility', 'visible');
-              button.classList.add('active');
-            }
-          });
-        });
-      });
-
-    </script>
-  </body>
-</html>
+            
