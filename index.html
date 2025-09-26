@@ -376,8 +376,8 @@
       <!-- Intro Modal -->
       <div id="introOverlay" style="display:flex;">
       <div id="introModal">
-          <h1>Welcome to the Adapting Waterfronts SF Tour!</h1>
-          <p>This is a self-guided augmented reality tour of San Francisco’s adapting waterfront past, present, and future.</p>
+          <h1>Welcome to the Adapting Waterfronts SG Tour!</h1>
+          <p>This is a self-guided augmented reality tour of Singapore's adapting waterfront past, present, and future.</p>
           <p> Here’s how to get started: </p>
           <ol class="intro-steps">
             <li><strong>Step 1.</strong> Download <a href="https://apps.apple.com/us/app/adobe-aero/id1401748913">Adobe Aero</a>. Sign in.</li>
@@ -410,7 +410,7 @@
         <p><strong>Step 5.</strong> Enjoy and be aware of your surroundings at all times.</p><br>
 
         <h2>About</h2>
-        <p>Adapting Waterfronts is a self-guided augmented reality tour along San Francisco’s historic downtown. The project invites the public to explore the past, present, and potential future transformations of the city’s shoreline as it adapts to climate change by visualizing installations at 8 designated locations. Supported by funds from the Research, Scholarly and Creative Activities (RCSA) Grant Program at the California Polytechnic State University in San Luis Obispo.</p>
+        <p>Adapting Waterfronts is a self-guided augmented reality tour along Singapore's historic downtown. The project invites the public to explore the past, present, and potential future transformations of the city’s shoreline as it adapts to climate change by visualizing installations at 8 designated locations. Supported by funds from the Research, Scholarly and Creative Activities (RCSA) Grant Program at the California Polytechnic State University in San Luis Obispo.</p>
         <p>Created by Gabriel Tenaya Kaprielian</p>
         <p>Website/logo by Abigail Chen</p>
         <!-- <div class="about-logos">
@@ -466,8 +466,8 @@
         const map = new mapboxgl.Map({
             container: 'map',
             style: 'mapbox://styles/mapbox/light-v11',
-            center: [-122.39867, 37.79268],
-            zoom: 14.15
+            center: [103.85289, 1.28831],
+            zoom: 14.02
         });
 
         // Add geolocate
@@ -701,65 +701,65 @@
         });
 
         map.on('load', () => {
-          // Shoreline
-          map.addSource('shoreline', {
-            'type': 'vector',
-            'url': 'mapbox://gscales1.1koo04dg' // Replace with Tileset ID
-          });
+          // // Shoreline --> REPLACE WITH SINGAPORE SHORELINE
+          // map.addSource('shoreline', {
+          //   'type': 'vector',
+          //   'url': 'mapbox://gscales1.1koo04dg' // Replace with Tileset ID
+          // });
 
-          map.addLayer({
-            'id': 'shoreline',
-            'type': 'fill',
-            'source': 'shoreline',
-            'source-layer': 'bayfill_KML', // Replace with Tileset Vector Layer name
-            'paint': {
-              'fill-color': '#FFC31E',
-              'fill-opacity': 0.4
-            }
-          });
+          // map.addLayer({
+          //   'id': 'shoreline',
+          //   'type': 'fill',
+          //   'source': 'shoreline',
+          //   'source-layer': 'bayfill_KML', // Replace with Tileset Vector Layer name
+          //   'paint': {
+          //     'fill-color': '#FFC31E',
+          //     'fill-opacity': 0.4
+          //   }
+          // });
 
-          // 6ft SLR
-          map.addSource('6ftslr', {
-            'type': 'vector',
-            'url': 'mapbox://gscales1.2fbkgkhm' // Replace with Tileset ID
-          });
+          // // 6ft SLR --> REPLACE WITH SINGAPORE SLR
+          // map.addSource('6ftslr', {
+          //   'type': 'vector',
+          //   'url': 'mapbox://gscales1.2fbkgkhm' // Replace with Tileset ID
+          // });
 
-          map.addLayer({
-            'id': '6ftslr',
-            'type': 'fill',
-            'source': '6ftslr',
-            'source-layer': '6ft_SLR_KML', // Replace with Tileset Vector Layer name
-            'paint': {
-              'fill-color': '#41A7FF',
-              'fill-opacity': 0.7
-            }
-          });
+          // map.addLayer({
+          //   'id': '6ftslr',
+          //   'type': 'fill',
+          //   'source': '6ftslr',
+          //   'source-layer': '6ft_SLR_KML', // Replace with Tileset Vector Layer name
+          //   'paint': {
+          //     'fill-color': '#41A7FF',
+          //     'fill-opacity': 0.7
+          //   }
+          // });
 
-          // Route
-          map.addSource('route', {
-            'type': 'geojson',
-            'data': {
-              'type': 'Feature',
-              'properties': {},
-              'geometry': {
-                'type': 'LineString',
-                'coordinates': [
-                  [-122.400517,37.78745],
-                  [-122.397587,37.789784],
-                  [-122.399158,37.791027],
-                  [-122.399584,37.791348],
-                  [-122.399789,37.792266],
-                  [-122.402592,37.791905],
-                  [-122.403138,37.79468],
-                  [-122.398016,37.79534],
-                  [-122.397809,37.794438],
-                  [-122.396609,37.79459],
-                  [-122.396324,37.793286],
-                  [-122.395638, 37.793845]
-                ]
-              }
-            }
-          });
+          // // Route -->  REPLACE WITH SINGAPORE WALKING TOUR ROUTE
+          // map.addSource('route', {
+          //   'type': 'geojson',
+          //   'data': {
+          //     'type': 'Feature',
+          //     'properties': {},
+          //     'geometry': {
+          //       'type': 'LineString',
+          //       'coordinates': [
+          //         [-122.400517,37.78745],
+          //         [-122.397587,37.789784],
+          //         [-122.399158,37.791027],
+          //         [-122.399584,37.791348],
+          //         [-122.399789,37.792266],
+          //         [-122.402592,37.791905],
+          //         [-122.403138,37.79468],
+          //         [-122.398016,37.79534],
+          //         [-122.397809,37.794438],
+          //         [-122.396609,37.79459],
+          //         [-122.396324,37.793286],
+          //         [-122.395638, 37.793845]
+          //       ]
+          //     }
+          //   }
+          // });
 
           map.addLayer({
             'id': 'route',
