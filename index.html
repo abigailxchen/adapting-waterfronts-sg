@@ -953,22 +953,22 @@
         });
 
         map.on('load', () => {
-          // // Shoreline --> REPLACE WITH SINGAPORE SHORELINE
-          // map.addSource('shoreline', {
-          //   'type': 'vector',
-          //   'url': 'mapbox://gscales1.1koo04dg' // Replace with Tileset ID
-          // });
+          // Shoreline 
+          map.addSource('shoreline', {
+            'type': 'vector',
+            'url': 'mapbox://gscales1.cmgik5mh00m1g1pqvkueqzrxf-76sea' // Replace with Tileset ID
+          });
 
-          // map.addLayer({
-          //   'id': 'shoreline',
-          //   'type': 'fill',
-          //   'source': 'shoreline',
-          //   'source-layer': 'bayfill_KML', // Replace with Tileset Vector Layer name
-          //   'paint': {
-          //     'fill-color': '#FFC31E',
-          //     'fill-opacity': 0.4
-          //   }
-          // });
+          map.addLayer({
+            'id': 'shoreline',
+            'type': 'fill',
+            'source': 'shoreline',
+            'source-layer': 'SG_Historic_Shoreline', // Replace with Tileset Vector Layer name
+            'paint': {
+              'fill-color': '#41A7FF',
+              'fill-opacity': 0.4
+            }
+          });
 
           // // 6ft SLR --> REPLACE WITH SINGAPORE SLR
           // map.addSource('6ftslr', {
