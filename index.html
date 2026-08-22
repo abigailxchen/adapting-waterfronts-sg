@@ -180,6 +180,22 @@
         color: #333;               /* darker text for contrast */
       }
 
+      .ar-button {
+        padding: 12px 24px;
+        font-family: 'Satoshi', sans-serif;
+        font-weight: bold;
+        font-size: 1em;
+        border: none;
+        border-radius: 8px;
+        background: #FFC31E;
+        color: black;
+        cursor: pointer;
+      }
+
+      .ar-button:hover {
+        background: #F7D987;
+      }
+
       /* Optional: popup tip (the little pointer triangle) */
       .mapboxgl-popup-tip {
         border-top-color: #FBF8F0 !important; /* beige pointer */
@@ -538,8 +554,8 @@
                     description: "You are at the base of what was once Mount Palmer, where in 1879 you could see a view of Tanjong Pajar Dock and an historic fishing village. Traditional attap houses were built on wooden stilts above the water. What can we learn from the past in response to sea-level rise that embraces a relationship with the sea?",
                     picture: 'Site1_PPF.gif',
                     // instructions: "Hold the QR and click 'Open Adobe Aero'!",
-                    // qr: 'AW_Site1_QR.png'
-
+                    // qr: 'AW_Site1_QR.png',
+                    arLink: 'https://site1.adaptingwaterfronts.workers.dev/'
                 }
                 },
                 {
@@ -596,7 +612,8 @@
                     description: 'This historic photo was taken in 1872 from Mount Wallich, shortly before it was levelled to the ground by 1885 for the reclamation of Telok Ayer Bay to form the area where Anson and Robinson Roads now lie, linking Collyer Quay to Tanjong Pagar. Seawalls and rock slopes already protect over 70 percent of Singapore’s shoreline. Coastal protective barriers require continual maintenance to avoid failure.',
                     picture: 'Site5_PPF.gif',
                     // instructions: "Hold the QR and click 'Open Adobe Aero'!",
-                    // qr: 'AW_Site5_QR.png'
+                    // qr: 'AW_Site5_QR.png',
+                    arLink: 'https://site5.adaptingwaterfronts.workers.dev/'
                 }
                 },
                 {
@@ -625,8 +642,8 @@
                     description: 'You are standing on the edge of the original shoreline. Thian Hock Keng Temple was dedicated to Ma Zu, protector of seafarers. It started out as a prayer house or “joss shrine” located along the shore of Telok Ayer Bay in 1822, where it created returning boats and sampans of early immigrants.',
                     picture: 'Site7_PPF.gif',
                     // instructions: "Hold the QR and click 'Open Adobe Aero'!",
-                    // qr: 'AW_Site7_QR.png'
-
+                    // qr: 'AW_Site7_QR.png',
+                    arLink: 'https://site7.adaptingwaterfronts.workers.dev/'
                 }
                 },
                 {
@@ -640,8 +657,8 @@
                     description: 'In this mural by artist Yew Chong Yip, you can see Thian Hock Keng Temple, Nagore Durgha Indian Muslim shrine, and Lau Pa Sat market all serving as gathering places along the shoreline for the diverse community. Consider how all of these historic buildings were once built along the edge of the sea. How has the use of the shoreline changed from this view of the past? Imagine if the water came back to where it once was. Artwork by: Yew Chong Yip',
                     picture: 'Site8_PPF.gif',
                     // instructions: "Hold the QR and click 'Open Adobe Aero'!",
-                    // qr: 'AW_Site8_QR.png'
-
+                    // qr: 'AW_Site8_QR.png',
+                    arLink: 'https://site8.adaptingwaterfronts.workers.dev/'
                 }
                 },
                 {
@@ -714,7 +731,8 @@
                     description: 'This historic photo of the Boat Quay is over 150 years old! The Harbour Master’s Office, seen on the right, along with the Town Hall and Government Offices built in the 1860’s. If you were going to write a postcard to someone in this time period, what might you say about how Singapore has changed? Consider what it might look like in 100 or 150 years in the future. What might someone write back to you?',
                     picture: 'Site13_PPF.gif',
                     // instructions: "Hold the QR and click 'Open Adobe Aero'!",
-                    // qr: 'AW_Site13_QR.png'
+                    // qr: 'AW_Site13_QR.png',
+                    arLink: 'https://site13.adaptingwaterfronts.workers.dev/'
                 }
                 },
                 {
@@ -743,7 +761,8 @@
                     description: 'Land reclamation began in Singapore 200 years ago in the early 1820’s, filling in the mangrove swamps along the south bank of the Singapore River. As part of Singapore’s Green Plan 2030, NParks aims to create a “City in Nature,” including a pledge to restore mangroves. Image mangrove forests once again thriving along the Singapore River and coexisting with the dense urban fabric downtown.',
                     picture: 'Site15_PPF.gif',
                     // instructions: "Hold the QR and click 'Open Adobe Aero'!",
-                    // qr: 'AW_Site15_QR.png'
+                    // qr: 'AW_Site15_QR.png',
+                    arLink: 'https://site15.adaptingwaterfronts.workers.dev/'
                 }
                 },
                                 {
@@ -920,11 +939,17 @@
               `<h3>${feature.properties.title}</h3>
               <p>${feature.properties.description}</p>
               ${feature.properties.picture ? `<img src="img/${feature.properties.picture}" style="max-width:100%">` : ""}
+              ${feature.properties.arLink ? `
+                <div class="qr-section">
+                  <a href="${feature.properties.arLink}" target="_blank" rel="noopener noreferrer">
+                    <button class="ar-button">View in AR</button>
+                  </a>
+                </div>` : ""}
               ${feature.properties.instructions || feature.properties.qr ? `
-                  <div class="qr-section">
-                    ${feature.properties.instructions ? `<p>${feature.properties.instructions}</p>` : ""}
-                    ${feature.properties.qr ? `<img src="img/${feature.properties.qr}" alt="QR Code" class="qr-code">` : ""}
-                  </div>` : ""}`
+                <div class="qr-section">
+                  ${feature.properties.instructions ? `<p>${feature.properties.instructions}</p>` : ""}
+                  ${feature.properties.qr ? `<img src="img/${feature.properties.qr}" alt="QR Code" class="qr-code">` : ""}
+                </div>` : ""}`
             );
 
           // Make a marker and add to the map
